@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bangkok Routing — Admin Panel</title>
+  <meta name="description" content="Admin panel to block and unblock road edges for Bangkok A* routing."/>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="header">
+      <h1>⚙️ Admin Panel</h1>
+      <p>Click an edge on the map to block/unblock it</p>
+      <div class="header-links">
+        <a href="/">User Map</a>
+        <a href="/admin" class="active">Admin Panel</a>
+      </div>
+    </div>
+
+    <div class="status-bar" id="statusBar">
+      <span class="dot" id="statusDot"></span>
+      <span id="statusText">Connecting…</span>
+    </div>
+
+    <!-- Controls -->
+    <div class="section">
+      <div class="section-title">Map Layers</div>
+      <div class="mode-pills" style="margin-bottom:12px;">
+        <button class="mode-pill active" id="layerWalk" onclick="toggleLayer('walk')">🚶 Walk</button>
+        <button class="mode-pill active" id="layerDrive" onclick="toggleLayer('drive')">🚗 Drive</button>
+        <button class="mode-pill active" id="layerRail" onclick="toggleLayer('rail')">🚇 Rail</button>
+      </div>
+      <button class="btn btn-ghost" id="btnLoadEdges" style="width:100%;font-size:0.78rem;padding:9px;">
+        Load Road Edges
+      </button>
+      <div class="field-hint" style="margin-top:6px;">
+        Loads a sample of OSM edges onto the map for clicking. May take a moment.
+      </div>
+    </div>
+
+    <!-- Blocked edges -->
+    <div class="section" style="flex:1;">
+      <div class="section-title">
+        Blocked Edges
+        <span id="blockedCount" style="
+          background:rgba(239,68,68,0.2);
+          color:#f87171;
+          padding:1px 7px;
+          border-radius:4px;
+          font-size:0.68rem;
+          margin-left:6px;
+        ">0</span>
+      </div>
+      <div class="blocked-list" id="blockedList">
+        <div style="color:var(--text-muted);font-size:0.73rem;text-align:center;padding:16px 0;">
+          No blocked edges
+        </div>
+      </div>
+      <div style="margin-top:12px;">
+        <button class="btn btn-danger btn-sm" id="btnUnblockAll" onclick="unblockAll()">
+          Unblock All
+        </button>
+      </div>
+    </div>
+
+    <!-- Info -->
+    <div class="section">
+      <div class="section-title">Instructions</div>
+      <div style="font-size:0.72rem;color:var(--text-muted);line-height:1.6;">
+        1. Click <strong>"Load Road Edges"</strong> to render road edges on the map.<br/>
+        2. Click any road edge (coloured line) to <span style="color:#ef4444;font-weight:600;">block</span> it.<br/>
+        3. Click a blocked edge again to <span style="color:#10b981;font-weight:600;">unblock</span> it.<br/>
+        4. Switch to the User Map and run a route — A* will reroute around blocked edges.
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Map ── -->
+  <div id="map"></div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/static/js/admin_map.js?v=2"></script>
+</body>
+</html>
